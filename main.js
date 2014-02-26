@@ -13,6 +13,9 @@ function resize(){
 function main(){
 	var i;
 	for(i = 0; i < entities.length; i++){
+		entities[i].apply_forces(sys);
+	}
+	for(i = 0; i < entities.length; i++){
 		entities[i].update(sys);
 	}
 
@@ -25,9 +28,9 @@ function main(){
 }
 
 function setup(){
-	var interval_length = 10;
+	var interval_length = 20;
 	window.onresize = resize;
-	for(var i = 0; i < 5; i++){
+	for(var i = 0; i < 1000; i++){
 		var e = new Entity();
 		entities.push(e);
 	}
