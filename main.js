@@ -28,7 +28,7 @@ function main(){
 }
 
 function setup(){
-	var interval_length = 20;
+	var interval_length = 2;
 	window.onresize = resize;
 	for(var i = 0; i < 1000; i++){
 		var e = new Entity();

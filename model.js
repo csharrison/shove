@@ -8,6 +8,7 @@ var length = 5;
 var width = 5;
 var _h = Vec2.create(0,0);
 var _acc = Vec2.create(0,0);
+var _xacc = Vec2.create(0,0);
 var system = {
 	xdot: function(me, sys){
 		Vec2.add(me.x, me.v, me.x);
@@ -25,14 +26,24 @@ var system = {
 		var es = sys.ents;
 		Vec2.set(0,0,me.a);
 		Vec2.set(0,0,_acc);
-
+		Vec2.set(0,0, _xacc);
+		neighs = 0;
 		me.color = get_color(me.mtype);
 
 		for(i = 0; i < es.length; i++){
 			var e = es[i];
 			var d = Vec2.distance(me.x, e.x);
 			/* flocking force */
-			if(me.mtype && e.mtype && d < 2 * (me.r + e.r)) Vec2.add(_acc, e.v, _acc);
+			if(me.mtype && e.mtype){
+				if(d < 2 * (me.r + e.r)){
+					Vec2.add(_acc, e.v, _acc);
+					neighs = neighs + 1;
+				}
+				if(me != e && d < 4 * (me.r + e.r)){
+					Vec2.add(_xacc, e.x, _xacc);
+				}
+			}
+
 			if(me == e) continue;
 			if(d < me.r + e.r){
 				/*repulsion force*/
@@ -41,7 +52,7 @@ var system = {
 
 				Vec2.subtract(me.x, e.x, _h);
 
-				ep = 15;
+				ep = 25;
 				Vec2.scale(_h, ep * Math.pow((1 - d/(me.r + e.r)), 3/2), _h)
 
 				Vec2.add(me.a, _h, me.a);
@@ -58,15 +69,25 @@ var system = {
 
 		/* apply the flocking force */
 		if(me.mtype){
-			alpha = 1;
+			alpha = .5;
+			beta = 0.0;
 			len = Vec2.length(_acc);
-			if(len != 0){
-				Vec2.scale(_acc, alpha/len, _acc);
+			if(neighs !== 0){
+				Vec2.add(me.v, _acc, _acc);
+				Vec2.scale(_acc, alpha/neighs, _acc);
 				Vec2.add(me.a, _acc, me.a);
 			}
 
+			if(neighs !== 0){
+				Vec2.scale(_xacc, 1/neighs, _xacc);
+				Vec2.subtract(me.x, _xacc, _xacc);
+
+				Vec2.scale(_xacc, beta, _xacc);
+				Vec2.add(me.a, _xacc, me.a);
+			}
+
 			/* noise force */
-			Vec2.randomize_gauss(0,.1, _h);
+			Vec2.randomize_gauss(0,.01, _h);
 			Vec2.add(me.a, _h, me.a);
 		}
 	}
