@@ -102,7 +102,7 @@ var Entity = function(mtype, r, x, v, a){
 	this.v = v || Vec2.create(1,.5);
 	this.a = a || Vec2.create(0, 0);
 	this.color = get_color(this.mtype);
-	Vec2.randomize(0,1000, this.x);
+	Vec2.randomize(0,3000, this.x);
 	Vec2.randomize(-1,1, this.v);
 };
 
