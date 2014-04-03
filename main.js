@@ -5,7 +5,7 @@ var sys = {
 };
 
 function resize(){
-	Vec2.set(window.innerWidth, window.innerHeight, sys.dim);
+	Vec2.set(window.innerWidth/3.3, window.innerHeight/2.2, sys.dim);
 	c.width = sys.dim[0];
 	c.height = sys.dim[1];
 }
@@ -30,7 +30,7 @@ function main(){
 function setup(){
 	var interval_length = 2;
 	window.onresize = resize;
-	for(var i = 0; i < 1000; i++){
+	for(var i = 0; i < 500; i++){
 		var e = new Entity();
 		entities.push(e);
 	}
