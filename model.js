@@ -102,7 +102,7 @@ function get_color(mtype){
 	return mtype === 0 ? "rgb(0,0,200)" : "rgb(200,0,0)";
 }
 var Entity = function(mtype, r, x, v, a){
-	this.mtype = mtype || (Math.random() > 0.75 ? 1 : 0);
+	this.mtype = mtype || (Math.random() > 0.8 ? 1 : 0);
 	this.r = r || 6;
 	this.x = x || Vec2.create(100,100);
 	this.v = v || Vec2.create(1,.5);

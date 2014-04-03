@@ -30,7 +30,7 @@ function main(){
 function setup(){
 	var interval_length = 2;
 	window.onresize = resize;
-	for(var i = 0; i < 500; i++){
+	for(var i = 0; i < 600; i++){
 		var e = new Entity();
 		entities.push(e);
 	}
